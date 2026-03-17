@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Kahk In Eid?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe4d6 0%, #fff5e6 50%, #ffe4d6 100%);
+            transition: background 0.5s ease;
+            overflow: hidden;
+        }
+
+        body.sad-mode {
+            background: linear-gradient(135deg, #d4a5a5 0%, #c9a0a0 50%, #d4a5a5 100%);
+        }
+
+        body.happy-mode {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            animation: happyGlow 1s ease infinite;
+        }
+
+        @keyframes happyGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.1); }
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Kahk Styles */
+        .kahk-container {
+            margin-bottom: 40px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        .kahk {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #f5d5a8, #d4a574);
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset -5px -5px 15px rgba(0, 0, 0, 0.1);
+            animation: kahkRotate 4s linear infinite;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .kahk.cracked {
+            animation: kahkRotate 4s linear infinite, kahkCrack 0.5s ease forwards;
+        }
+
+        .kahk.split {
+            animation: kahkRotate 4s linear infinite, kahkSplit 0.6s ease forwards;
+        }
+
+        .kahk.happy {
+            animation: kahkRotate 4s linear infinite, kahkBounce 0.6s ease;
+        }
+
+        .kahk::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3), transparent 60%);
+            pointer-events: none;
+        }
+
+        .kahk.cracked::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed #8b6f47;
+            animation: crackAppear 0.5s ease;
+        }
+
+        @keyframes kahkRotate {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        @keyframes kahkCrack {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(0.85); }
+        }
+
+        @keyframes crackAppear {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes kahkSplit {
+            0% {
+                transform: rotateZ(0deg) scaleY(1);
+            }
+            50% {
+                transform: rotateZ(0deg) scaleY(0.95);
+            }
+            100% {
+                transform: rotateZ(0deg) scaleY(0.8);
+            }
+        }
+
+        @keyframes kahkBounce {
+            0%, 100% { transform: scale(1) rotateZ(0deg); }
+            25% { transform: scale(1.1) rotateZ(-5deg); }
+            50% { transform: scale(1.15) rotateZ(5deg); }
+            75% { transform: scale(1.1) rotateZ(-5deg); }
+        }
+
+        /* Text Styles */
+        .text-section {
+            margin-bottom: 40px;
+        }
+
+        .main-question {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 15px;
+            animation: fadeIn 0.6s ease;
+            line-height: 1.3;
+        }
+
+        .subtext {
+            font-size: 1.2rem;
+            color: #a0522d;
+            margin-bottom: 10px;
+            font-style: italic;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Button Styles */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            min-height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            animation: slideIn 0.5s ease;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .yes-btn:active {
+            transform: scale(0.95);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #a8d8ea, #aa96da);
+            color: white;
+            animation: slideIn 0.5s ease 0.1s both;
+        }
+
+        .no-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(168, 216, 234, 0.4);
+        }
+
+        .no-btn:active {
+            transform: scale(0.95);
+        }
+
+        .exit-btn {
+            background: linear-gradient(135deg, #ff9a9a, #ff7b7b);
+            color: white;
+            position: absolute;
+            animation: popIn 0.4s ease;
+        }
+
+        .exit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Final Screen */
+        .final-screen {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .final-message {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 40px;
+            animation: bounce 0.6s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Floating Hearts */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatUp 3s ease-in infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .main-question {
+                font-size: 1.8rem;
+            }
+
+            .subtext {
+                font-size: 1rem;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 0.95rem;
+            }
+
+            .kahk {
+                width: 120px;
+                height: 120px;
+            }
+
+            .kahk-container {
+                height: 150px;
+            }
+        }
+
+        /* Hidden state */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container">
+        <!-- Kahk Section -->
+        <div class="kahk-container">
+            <div class="kahk" id="kahk"></div>
+        </div>
+
+        <!-- Text Section -->
+        <div class="text-section" id="textSection">
+            <h1 class="main-question">Will You Be My Kahk In Eid?</h1>
+            <p class="subtext">For Bes</p>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="buttons-container" id="buttonsContainer">
+            <button class="yes-btn" id="yesBtn">Yes</button>
+            <button class="no-btn" id="noBtn">No</button>
+        </div>
+
+        <!-- Final Screen -->
+        <div class="final-screen" id="finalScreen">
+            <div class="final-message">Aywaaaaaa Hyaaaa Om Malikaaaaa 🤤🔥</div>
+        </div>
+    </div>
+
+    <script>
+        const kahk = document.getElementById('kahk');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        const textSection = document.getElementById('textSection');
+        const finalScreen = document.getElementById('finalScreen');
+        const heartsContainer = document.getElementById('heartsContainer');
+
+        let noClickCount = 0;
+        const noMessages = [
+            'No',
+            'Are you sure?',
+            'Please 😭',
+            'Ya benty khalas 😔',
+            'Last chance wallahy 😩'
+        ];
+
+        // Sound effects (using Web Audio API)
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                if (type === 'click') {
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } else if (type === 'success') {
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 0.5 + 's';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        // Generate hearts continuously
+        let heartsInterval;
+        function startHearts() {
+            heartsInterval = setInterval(createHeart, 300);
+        }
+
+        function stopHearts() {
+            clearInterval(heartsInterval);
+        }
+
+        // No button logic
+        noBtn.addEventListener('click', () => {
+            playSound('click');
+            noClickCount++;
+
+            // Update no button text
+            if (noClickCount <= noMessages.length) {
+                noBtn.textContent = noMessages[Math.min(noClickCount - 1, noMessages.length - 1)];
+            }
+
+            // Scale animations
+            const yesBtnScale = 1 + (noClickCount * 0.15);
+            const noBtnScale = Math.max(0.5, 1 - (noClickCount * 0.15));
+
+            yesBtn.style.transform = `scale(${yesBtnScale})`;
+            noBtn.style.transform = `scale(${noBtnScale})`;
+
+            // Kahk animation progression
+            if (noClickCount === 1) {
+                kahk.classList.add('cracked');
+            } else if (noClickCount >= 2) {
+                kahk.classList.remove('cracked');
+                kahk.classList.add('split');
+            }
+
+            // Background darkening
+            const darkness = Math.min(noClickCount * 0.15, 0.4);
+            document.body.style.filter = `brightness(${1 - darkness})`;
+            document.body.classList.add('sad-mode');
+
+            // Show exit button after 2 clicks
+            if (noClickCount === 2 && !document.getElementById('exitBtn')) {
+                showExitButton();
+            }
+        });
+
+        // Exit button logic
+        function showExitButton() {
+            const exitBtn = document.createElement('button');
+            exitBtn.id = 'exitBtn';
+            exitBtn.className = 'exit-btn';
+            exitBtn.textContent = 'Exit';
+            buttonsContainer.appendChild(exitBtn);
+
+            exitBtn.addEventListener('mouseenter', () => {
+                moveExitButton(exitBtn);
+            });
+
+            exitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                moveExitButton(exitBtn);
+            });
+
+            exitBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                moveExitButton(exitBtn);
+            });
+        }
+
+        function moveExitButton(btn) {
+            const randomX = Math.random() * (window.innerWidth - 150);
+            const randomY = Math.random() * (window.innerHeight - 60);
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.transition = 'all 0.3s ease';
+
+            playSound('click');
+        }
+
+        // Yes button logic
+        yesBtn.addEventListener('click', () => {
+            playSound('success');
+
+            // Hide buttons and text
+            buttonsContainer.classList.add('hidden');
+            textSection.classList.add('hidden');
+
+            // Kahk happy animation
+            kahk.classList.remove('cracked', 'split');
+            kahk.classList.add('happy');
+
+            // Background happy mode
+            document.body.classList.remove('sad-mode');
+            document.body.classList.add('happy-mode');
+            document.body.style.filter = 'brightness(1)';
+
+            // Show final screen
+            setTimeout(() => {
+                finalScreen.style.display = 'block';
+                startHearts();
+            }, 600);
+        });
+
+        // Prevent text selection on buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('selectstart', (e) => e.preventDefault());
+        });
+    </script>
+</body>
+</html>
